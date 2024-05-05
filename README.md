@@ -1,7 +1,10 @@
 # CS157A-FinalProject
 
 ## Getting Started 
-* TBD
+- ### [Database Setup](/database/)
+- ### [Backend Setup](/backend/)
+- ### [Frontend Setup](/frontend/)
+- ### [Documents](/docs/)
 
 ## Team Members and Their Roles/Contributions
 * ### Amer Abu Amrieh
