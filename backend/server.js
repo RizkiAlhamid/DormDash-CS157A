@@ -1,30 +1,27 @@
-require('dotenv').config(); // Load environment variables from .env file
-
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
+const usersRoutes = require('./routes/usersRoutes');
+const propertyRoutes = require('./routes/propertyRoutes');
+const propertyPhotosRoutes = require('./routes/propertyPhotosRoutes');
+const favoritesRoutes = require('./routes/favoritesRoutes');
+const bookingsRoutes = require('./routes/bookingsRoutes');
+const reviewsRoutes = require('./routes/reviewsRoutes');
 
 const app = express()
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors())
-
-const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE
-})
 
 app.get('/', (req, res) => {
     return res.json('From backend side')
 })
 
-app.get('/users', (req, res) => {
-    const sql = "SELECT * FROM users"
-    db.query(sql, (err, data) => {
-        if(err) return res.json(err);
-        return res.json(data);
-    })
-})
+app.use('/users', usersRoutes);
+app.use('/property', propertyRoutes);
+app.use('/propertyphotos', propertyPhotosRoutes);
+app.use('/favorites', favoritesRoutes);
+app.use('/bookings', bookingsRoutes);
+app.use('/reviews', reviewsRoutes);
 
 app.listen(8081, () => {
     console.log('listening');

@@ -5,6 +5,7 @@
 - ### [Backend Setup](/backend/)
 - ### [Frontend Setup](/frontend/)
 - ### [Documents](/docs/)
+- ### [Backend API Documentation](/docs/API.md)
 
 ## Team Members and Their Roles/Contributions
 * ### Amer Abu Amrieh
