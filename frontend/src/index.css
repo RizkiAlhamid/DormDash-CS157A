@@ -2,11 +2,11 @@ body, html {
   margin: 0;
   padding: 0;
   font-family: 'Arial', sans-serif;
-  background: #f5f5dc; /* Light beige background */
-  height: 100%; /* Ensure the body takes at least the full viewport height */
+  background: #f5f5dc;
+  height: 100%;
 }
 * {
-  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
+  box-sizing: border-box;
 }
 
 header {
@@ -17,9 +17,9 @@ header {
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
-  padding: 0; /* Remove any padding that could cause overflow */
-  margin: 0; /* Ensure no margins are causing overflow */
+  justify-content: center;
+  padding: 0;
+  margin: 0;
 }
 
 nav {
@@ -27,10 +27,10 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0 10%;
-  position: absolute; /* Makes navigation bar overlay on top of the header */
-  width: 100%; /* Ensure nav spans the full width */
-  top: 0; /* Position at the top */
-  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+  position: absolute;
+  width: 100%;
+  top: 0;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 nav .logo img {
@@ -42,57 +42,56 @@ nav .logo img {
   color: white;
   text-decoration: none;
   padding: 10px 15px;
-  background-color: #a52a2a; /* Dark red */
-  border-radius: 20px; /* More rounded edges */
-  font-weight: bold; /* Makes text bold */
+  background-color: #a52a2a;
+  border-radius: 20px;
+  font-weight: bold;
 }
 
 .main-header {
-  flex-grow: 1; /* Allows the main header content to take available space */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Center content horizontally */
+  align-items: center;
 }
 
 .main-header h1 {
-  font-size: 2.4em; /* Larger text */
+  font-size: 2.4em;
 }
 
 .main-header p {
-  font-size: 1.2em; /* Larger paragraph text */
+  font-size: 1.2em;
 }
 
 .search-form {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Adds space between form elements */
-  padding: 20px; /* Padding around the form */
-  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
-  border-radius: 5px; /* Rounded corners for the form */
+  gap: 10px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
 }
 
 .search-form input, .search-form button {
-  padding: 10px 20px; /* More padding for better touch */
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  outline: none; /* Removes the outline */
+  outline: none;
 }
 
 .search-form button {
-  background-color: #cc3333; /* Slightly brighter red */
+  background-color: #cc3333;
   color: white;
   cursor: pointer;
-  font-weight: bold; /* Makes button text bold */
+  font-weight: bold;
 }
 
-/* Responsive adjustments */
 @media (max-width: 600px) {
   nav, .main-header, .search-form {
     flex-direction: column;
   }
 
   .search-form input, .search-form button {
-    width: 90%; /* Full width for mobile */
+    width: 90%;
   }
 }
