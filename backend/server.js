@@ -24,5 +24,5 @@ app.use('/bookings', bookingsRoutes);
 app.use('/reviews', reviewsRoutes);
 
 app.listen(8081, () => {
-    console.log('listening');
+    console.log('Back-end is running');
 })
