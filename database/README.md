@@ -10,5 +10,5 @@ mysql -u root -p myDB < populateDb.sql
 4. Enter your password
 5. To drop your database, use:
 ```bash
-mysql -u root -p < dropDB.sql
+mysql -u root -p myDB < dropDB.sql
 ```
