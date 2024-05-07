@@ -1,13 +1,98 @@
-body {
+body, html {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: #f5f5dc; /* Light beige background */
+  height: 100%; /* Ensure the body takes at least the full viewport height */
+}
+* {
+  box-sizing: border-box; /* Includes padding and border in the element's total width and height */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+header {
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center content vertically */
+  padding: 0; /* Remove any padding that could cause overflow */
+  margin: 0; /* Ensure no margins are causing overflow */
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  position: absolute; /* Makes navigation bar overlay on top of the header */
+  width: 100%; /* Ensure nav spans the full width */
+  top: 0; /* Position at the top */
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+}
+
+nav .logo img {
+  height: 100px;
+  width: auto;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  background-color: #a52a2a; /* Dark red */
+  border-radius: 20px; /* More rounded edges */
+  font-weight: bold; /* Makes text bold */
+}
+
+.main-header {
+  flex-grow: 1; /* Allows the main header content to take available space */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center content horizontally */
+}
+
+.main-header h1 {
+  font-size: 2.4em; /* Larger text */
+}
+
+.main-header p {
+  font-size: 1.2em; /* Larger paragraph text */
+}
+
+.search-form {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Adds space between form elements */
+  padding: 20px; /* Padding around the form */
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+  border-radius: 5px; /* Rounded corners for the form */
+}
+
+.search-form input, .search-form button {
+  padding: 10px 20px; /* More padding for better touch */
+  border: none;
+  border-radius: 5px;
+  outline: none; /* Removes the outline */
+}
+
+.search-form button {
+  background-color: #cc3333; /* Slightly brighter red */
+  color: white;
+  cursor: pointer;
+  font-weight: bold; /* Makes button text bold */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  nav, .main-header, .search-form {
+    flex-direction: column;
+  }
+
+  .search-form input, .search-form button {
+    width: 90%; /* Full width for mobile */
+  }
 }
