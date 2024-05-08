@@ -19,17 +19,44 @@
 </nav>
 <div class="card">
     <h2>Create Account</h2>
-    <form action="/your-signup-endpoint" method="POST">
-        <input type="email" placeholder="Email" required>
-        <input type="text" placeholder="Create Username" required>
-        <input type="text" placeholder="First Name" required>
-        <input type="text" placeholder="Last Name" required>
-        <input type="number" placeholder="Phone Number">
-        <input type="password" placeholder="Create Password" required>
-        <input type="password" placeholder="Confirm Password" required>
+    <form id="signupForm">
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="firstName" placeholder="First Name" required>
+        <input type="text" name="lastName" placeholder="Last Name" required>
+        <input type="number" name="phoneNumber" placeholder="Phone Number">
+        <input type="password" name="password" placeholder="Create Password" required>
+        <input type="password" name="confirmPassword" placeholder="Confirm Password" required>
         <button type="submit">Sign Up</button>
         <a href="login.html">Already have an account? Login</a>
     </form>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const signupForm = document.getElementById('signupForm');
+        signupForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            fetch('http://localhost:8081/users', {
+                method: 'POST',
+                body: JSON.stringify(Object.fromEntries(formData)),
+                headers: { 'Content-Type': 'application/json' }
+            })
+                .then(response => {
+                    if (!response.ok) throw response;
+                    return response.json();
+                })
+                .then(data => {
+                    alert('Signup successful! Redirecting to login...');
+                    window.location.href = 'login.html';
+                })
+                .catch(error => {
+                    error.json().then(body => {
+                        alert('Signup Error: ' + body.error);
+                    });
+                });
+        });
+    });
+</script>
 </body>
 </html>
