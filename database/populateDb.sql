@@ -36,3 +36,24 @@ VALUES
     (1, 1, 4, 'Great experience in the cabin!', '2023-05-30'),
     (2, 2, 5, 'Beautiful villa with stunning views', '2023-07-05'),
     (3, 3, 3, 'Nice apartment but noisy street', '2023-07-15');
+
+INSERT INTO Schools (school_id, name, street, apartment_unit, city, state, zipcode, country, latitude, longitude) 
+VALUES
+    (1, 'Stanford University', '450 Serra Mall', NULL, 'Stanford', 'CA', '94305', 'USA', 37.4275, -122.1697),
+    (2, 'University of California, Berkeley', '110 Sproul Hall', NULL, 'Berkeley', 'CA', '94720', 'USA', 37.8719, -122.2585),
+    (3, 'San Francisco State University', '1600 Holloway Ave', NULL, 'San Francisco', 'CA', '94132', 'USA', 37.7219, -122.4782),
+    (4, 'University of San Francisco', '2130 Fulton St', NULL, 'San Francisco', 'CA', '94117', 'USA', 37.7766, -122.4505),
+    (5, 'California State University, East Bay', '25800 Carlos Bee Blvd', NULL, 'Hayward', 'CA', '94542', 'USA', 37.6552, -122.0565),
+    (6, 'San Jose State University', '1 Washington Sq', NULL, 'San Jose', 'CA', '95192', 'USA', 37.3352, -121.8811),
+    (7, 'Santa Clara University', '500 El Camino Real', NULL, 'Santa Clara', 'CA', '95053', 'USA', 37.3496, -121.9390),
+    (8, 'Sonoma State University', '1801 East Cotati Ave', NULL, 'Rohnert Park', 'CA', '94928', 'USA', 38.3399, -122.6731),
+    (9, 'California College of the Arts', '5212 Broadway', NULL, 'Oakland', 'CA', '94618', 'USA', 37.8349, -122.2518),
+    (10, 'Academy of Art University', '79 New Montgomery St', NULL, 'San Francisco', 'CA', '94105', 'USA', 37.7875, -122.4004),
+    (11, 'Golden Gate University', '536 Mission St', NULL, 'San Francisco', 'CA', '94105', 'USA', 37.7894, -122.3989),
+    (12, 'Dominican University of California', '50 Acacia Ave', NULL, 'San Rafael', 'CA', '94901', 'USA', 37.9756, -122.5309),
+    (13, 'Holy Names University', '3500 Mountain Blvd', NULL, 'Oakland', 'CA', '94619', 'USA', 37.8038, -122.1893),
+    (14, 'Menlo College', '1000 El Camino Real', NULL, 'Atherton', 'CA', '94027', 'USA', 37.4536, -122.1817),
+    (15, 'Pacific Union College', '1 Angwin Ave', NULL, 'Angwin', 'CA', '94508', 'USA', 38.5773, -122.4499);
+
+
+

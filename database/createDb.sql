@@ -75,4 +75,18 @@ CREATE TABLE Reviews (
     FOREIGN KEY (property_id) REFERENCES Property(property_id)
 );
 
+CREATE TABLE Schools (
+    school_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    street VARCHAR(255),
+    apartment_unit VARCHAR(50),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    zipcode VARCHAR(20),
+    country VARCHAR(100),
+    latitude DECIMAL(10, 6),
+    longitude DECIMAL(10, 6)
+);
+
+
 

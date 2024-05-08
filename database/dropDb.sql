@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Reviews;
 DROP TABLE IF EXISTS PropertyPhotos;
 DROP TABLE IF EXISTS Property;
 DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Schools;
 
 -- Drop the database itself
 DROP DATABASE IF EXISTS myDB;

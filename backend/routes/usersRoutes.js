@@ -41,4 +41,20 @@ router.post('/', (req, res) => {
     })
 })
 
+router.delete('/:userId', (req, res) => {
+    const userId = req.params.userId;
+    const sql = "DELETE FROM users WHERE user_id = ?";
+    
+    db.query(sql, [userId], (err, result) => {
+        if (err) {
+            console.error("Error deleting user: ", err);
+            return res.status(500).json({ error: "Failed to delete user" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        console.log("User deleted successfully");
+        return res.json({ message: "User deleted successfully" });
+    });
+});
 module.exports = router;
