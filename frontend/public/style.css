@@ -3,13 +3,13 @@ body, html {
     padding: 0;
     font-family: 'Arial', sans-serif;
     background: #f5f5dc;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: auto;
 }
 body {
-    padding-top: 100px;
+    padding-top: 160px;
 }
 * {
     box-sizing: border-box;
@@ -90,6 +90,12 @@ nav .logo a {
     display: inline-block;
     padding: 5px;
 }
+
+.menu {
+    display: flex;  /* Align children (links) in a row */
+    justify-content: center; /* Center the links */
+    gap: 20px;  /* Space between links */
+}
 .menu a {
     color: white;
     text-decoration: none;
@@ -98,3 +104,21 @@ nav .logo a {
     border-radius: 20px;
     font-weight: bold;
 }
+
+.content {
+    font-size: 24px; /* Example size, adjust as needed */
+    color: #333; /* Dark color for visibility */
+    text-align: center; /* Center alignment for headers */
+    margin-top: 20px; /* Top margin */
+    margin-bottom: 10px; /* Space below the header */
+    padding: 0 20px; /* Adds padding to the sides */
+    margin: 0 auto; /* Centers the content and maintains margins from the sides */
+    max-width: 1200px; /* You can adjust this value based on your design preference */
+  }
+  
+  .content p {
+    font-size: 16px; /* Ensuring text is easily readable */
+    line-height: 1.6; /* Adequate line spacing for readability */
+    text-align: justify; /* Justify alignment for cleaner presentation */
+    margin-bottom: 15px; /* Uniform spacing below paragraphs */
+  }
