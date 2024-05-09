@@ -70,18 +70,31 @@ button:hover {
 }
 
 .property-results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
 }
 
 .property-card {
-    border: 1px solid #ccc;
-    border-radius: 10px;
+    width: 100%; /* Adjust based on your layout, or use breakpoints for responsiveness */
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+}
+
+.property-image-container {
+    position: relative;
+    display: inline-block;
+    width: 100%; /* Ensures the image container fills the card */
+}
+
+.property-image {
+    width: 100%; /* Adjust based on your layout */
+    display: block;
+    height: auto; /* Maintain aspect ratio */
 }
 
 .property-card:hover {
@@ -115,4 +128,43 @@ button:hover {
     background-color: #a52a2a;
     color: white;
     text-align: center;
+}
+
+.favorite-button {
+    position: absolute;
+    top: 10px; /* Adjust based on your layout */
+    right: 10px; /* Adjust based on your layout */
+    background-color: transparent;
+    border: none;
+    color: red;
+    font-size: 24px; /* Adjust size of the heart */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.favorite-button:hover {
+    transform: scale(1.2); /* Slightly enlarges the button on hover */
+}
+
+/* Additional styles for text and other elements */
+h2, p {
+    padding: 0 15px;
+}
+
+.price {
+    font-weight: bold;
+    color: green;
+    padding: 0 15px;
+}
+
+@media (min-width: 768px) {
+    .property-card {
+        width: 48%; /* Makes two columns on larger screens */
+    }
+}
+
+@media (min-width: 1024px) {
+    .property-card {
+        width: 31%; /* Makes three columns on larger screens */
+    }
 }
