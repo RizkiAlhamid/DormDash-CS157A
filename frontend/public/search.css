@@ -7,7 +7,7 @@
 body, html {
     font-family: Arial, sans-serif;
     height: 100%;
-    background: #f5f5dc; /* Light grey background */
+    background: #f5f5dc;
 }
 
 nav {
@@ -128,6 +128,14 @@ button:hover {
     background-color: #a52a2a;
     color: white;
     text-align: center;
+}
+.property-card a {
+    text-decoration: none;
+    color: inherit; /* Ensures text inherits the color from parent elements */
+}
+
+.property-info {
+    padding: 15px; /* Adds padding inside the link for better readability */
 }
 
 .favorite-button {

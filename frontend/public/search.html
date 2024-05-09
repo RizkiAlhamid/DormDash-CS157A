@@ -54,47 +54,50 @@
     }
 
     document.getElementById('searchForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
-    const formData = new FormData(this);
-    const searchParams = new URLSearchParams(formData).toString();
+        event.preventDefault();
+        const formData = new FormData(this);
+        const searchParams = new URLSearchParams(formData).toString();
 
-    try {
-        const response = await fetch(`http://localhost:8081/properties/search?${searchParams}`);
-        const data = await response.json();
+        try {
+            const response = await fetch(`http://localhost:8081/properties/search?${searchParams}`);
+            const data = await response.json();
 
-        if (!response.ok) {
-            throw new Error(data.message || 'Failed to fetch properties');
+            if (!response.ok) {
+                throw new Error(data.message || 'Failed to fetch properties');
+            }
+
+            const propertyResults = document.getElementById('propertyResults');
+            propertyResults.innerHTML = '';
+
+            data.forEach(property => {
+                const imageUrl = getRandomImage(); // Get a random image for each property
+                const propertyCard = document.createElement('div');
+                propertyCard.classList.add('property-card');
+
+                propertyCard.innerHTML = `
+                    <a href="property-detail.html?propertyId=${property.property_id}" class="property-link">
+                        <div class="property-image-container">
+                        <img src="${imageUrl}" alt="Property Image" class="property-image">
+                        <button class="favorite-button" onclick="addToFavorites('${property.id}')">&#x2665;</button>
+                        </div>
+                        <div class="property-info">
+                            <h2>${property.title}</h2>
+                            <p>${property.description}</p>
+                            <p class="price">Price per month: $${(property.price_per_night)*30}</p>
+                            <p>Location: ${property.street}, ${property.city}, ${property.state}, ${property.zipcode}</p>
+                            <p>Availability: ${property.availability_start_date} to ${property.availability_end_date}</p>
+                        </div>
+                    </a>
+                `;
+                propertyResults.appendChild(propertyCard);
+            });
+        } catch (error) {
+            console.error('Error fetching properties:', error);
+            alert('Failed to fetch properties. Please try again.');
         }
+    });
 
-        const propertyResults = document.getElementById('propertyResults');
-        propertyResults.innerHTML = '';
-
-        data.forEach(property => {
-    const propertyCard = document.createElement('div');
-    propertyCard.classList.add('property-card');
-    const imageUrl = property.photo_url || getRandomImage(); // Use random image if no URL
-
-    propertyCard.innerHTML = `
-        <div class="property-image-container">
-            <img src="${imageUrl}" alt="Property Image" class="property-image">
-            <button class="favorite-button" onclick="addToFavorites('${property.id}')">&#x2665;</button>
-        </div>
-        <h2>${property.title}</h2>
-        <p>${property.description}</p>
-        <p class="price">Price per month: $${(property.price_per_night)*30}</p>
-        <p>Location: ${property.street}, ${property.city}, ${property.state}, ${property.zipcode}</p>
-        <p>Availability: ${property.availability_start_date} to ${property.availability_end_date}</p>
-    `;
-
-    propertyResults.appendChild(propertyCard);
-});
-    } catch (error) {
-        console.error('Error fetching properties:', error);
-        alert('Failed to fetch properties. Please try again.');
-    }
-});
-
-function addToFavorites(propertyId) {
+    function addToFavorites(propertyId) {
     console.log("Adding to favorites:", propertyId);
     // Here you can add code to update the server or local storage
 }
