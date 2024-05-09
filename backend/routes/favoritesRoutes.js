@@ -18,5 +18,30 @@ router.get('/:favoriteId', (req, res) => {
         return res.json(data);
     });
 });
+router.post('/', (req, res) => {
+    const { user_id, property_id, date_saved } = req.body;
+    const sql = `
+        INSERT INTO Favorites (user_id, property_id, date_saved)
+        VALUES (?, ?, ?)
+    `;
+    const values = [user_id, property_id, date_saved];
+    
+    db.query(sql, values, (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        return res.status(201).json({ favorite_id: result.insertId, message: 'Favorite created successfully!' });
+    });
+});
+
+// Delete a favorite by favoriteId
+router.delete('/:favoriteId', (req, res) => {
+    const favoriteId = req.params.favoriteId;
+    const sql = "DELETE FROM Favorites WHERE favorite_id = ?";
+    
+    db.query(sql, [favoriteId], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Favorite not found!' });
+        return res.json({ message: 'Favorite deleted successfully!' });
+    });
+});
 
 module.exports = router;
