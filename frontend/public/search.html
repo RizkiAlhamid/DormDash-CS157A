@@ -2,9 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Page</title>
+    <link rel="stylesheet" href="search.css">
 </head>
 <body>
+<nav>
+    <div class="logo">
+        <img src="Images/logo.png" alt="DormDash Logo" />
+    </div>
+    <div class="menu">
+        <a href="search.html">Listings</a>
+        <a href="search.html">Favorites</a>
+        <a href="about.html">About us</a>
+        <a href="#" onclick="logoutUser()">Log Out</a>
+    </div>
+</nav>
+<main>
+    <h1>Begin your search</h1>
+    <p>Type in your desired school or city to find the ideal accommodations for your academic journey.</p>
+    <form id="searchForm">
+        <input type="text" placeholder="Enter School Name" name="school">
+        <input type="date" name="checkin">
+        <input type="date" name="checkout">
+        <button type="submit">Search</button>
+    </form>
+</main>
+<script>
+    function logoutUser() {
+        localStorage.removeItem('userToken');
+        window.location.href = 'index.html';
+    }
 
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        const formData = new FormData(this);
+        console.log('Form data:', Object.fromEntries(formData.entries()));
+        // Add here the code to handle the form data, e.g., make an AJAX request or update the UI
+    });
+</script>
 </body>
 </html>
