@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
 // Endpoint for searching properties by school, start_date, and end_date
 router.get('/search', (req, res) => {
     const { school, start_date, end_date } = req.query;
+    console.log('Received search request:', { school, start_date, end_date });
     // Query to find the school's latitude and longitude
     const schoolQuery = `
         SELECT latitude, longitude 

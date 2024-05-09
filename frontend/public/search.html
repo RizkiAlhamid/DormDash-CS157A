@@ -12,7 +12,7 @@
         <img src="Images/logo.png" alt="DormDash Logo" />
     </div>
     <div class="menu">
-        <a href="search.html">Listings</a>
+        <a href="search.html">Bookings</a>
         <a href="search.html">Favorites</a>
         <a href="about.html">About us</a>
         <a href="#" onclick="logoutUser()">Log Out</a>
@@ -37,13 +37,26 @@
         window.location.href = 'index.html';
     }
 
+    const placeholderImages = [
+        'https://www.shutterstock.com/image-photo/interior-small-apartment-living-room-600nw-2154108011.jpg',
+        'https://www.hellostudent.co.uk/propeller/uploads/2017/08/Claire-Williams-Photography-1-of-53-1020x740.jpg',
+        'https://www.go.study/assets/usa/student-accommodation-in-usa.jpg',
+        'https://live.staticflickr.com/65535/52676260196_bbbc13012f_c.jpg',
+        'https://cdn.trendir.com/wp-content/uploads/2016/09/Small-studio-wiht-minimal-furnishings.jpg',
+        'https://eagle.northwestu.edu/departments/housing/files/2022/05/220405_ResLifeLivingAreas-7807-1.jpg',
+        'https://www.pdx.edu/housing/sites/housing.web.wdt.pdx.edu/files/styles/feature_image_carousel/public/2020-02/Broadway-061.jpg?h=4fb0c68e&itok=hFw2Fm9p',
+        'https://cdn.homedit.com/wp-content/uploads/2011/12/perfect-student-flat5.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAgvZlNqz96qsjn6P-hshkgumIa1onMIlr-fYFiM90_Su67CJmPd1ulGTO9HI7DwoUH_4&usqp=CAU'
+    ];
+
+    function getRandomImage() {
+        return placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
+    }
+
     document.getElementById('searchForm').addEventListener('submit', async function(event) {
-        event.preventDefault(); // Prevent the default form submission
+        event.preventDefault();
         const formData = new FormData(this);
         const searchParams = new URLSearchParams(formData).toString();
-        console.log(searchParams)
-        console.log('Form data:', Object.fromEntries(formData.entries()));
-        // Add here the code to handle the form data, e.g., make an AJAX request or update the UI
 
         try {
             const response = await fetch(`http://localhost:8081/properties/search?${searchParams}`);
@@ -53,21 +66,19 @@
                 throw new Error(data.message || 'Failed to fetch properties');
             }
 
-            console.log('Properties:', data);
-
-            // Display the properties in the UI (e.g., as cards)
             const propertyResults = document.getElementById('propertyResults');
-            propertyResults.innerHTML = ''; // Clear previous results
+            propertyResults.innerHTML = '';
 
             data.forEach(property => {
                 const propertyCard = document.createElement('div');
                 propertyCard.classList.add('property-card');
-                
-                // Populate property card with details (adjust as needed)
+                const imageUrl = property.photo_url || getRandomImage(); // Use random image if no URL
+
                 propertyCard.innerHTML = `
+                    <img src="${imageUrl}" alt="Property Image">
                     <h2>${property.title}</h2>
                     <p>${property.description}</p>
-                    <p>Price per night: $${property.price_per_night}</p>
+                    <p class="price">Price per month: $${(property.price_per_night)*30}</p>
                     <p>Location: ${property.street}, ${property.city}, ${property.state}, ${property.zipcode}</p>
                     <p>Availability: ${property.availability_start_date} to ${property.availability_end_date}</p>
                 `;
@@ -76,7 +87,6 @@
             });
         } catch (error) {
             console.error('Error fetching properties:', error);
-            // Display error message to the user
             alert('Failed to fetch properties. Please try again.');
         }
     });
