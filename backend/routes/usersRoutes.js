@@ -19,26 +19,86 @@ router.get('/:userId', (req, res) => {
     });
 });
 
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
+
 router.post('/', (req, res) => {
-    // Extract data from request body
-    const { email, password, firstName, lastName, phoneNumber } = req.body;
-
-    // Validate incoming data
-
-    const registration_date = new Date()
-    //  Construct SQL INSERT query
-    const sql = "INSERT INTO users (email, password, first_name, last_name, phone_number, registration_date) VALUES (?, ?, ?, ?, ?, ?)";
-    const values = [email, password, firstName, lastName, phoneNumber, registration_date];
-
-    // Execute the query to insert new user
-    db.query(sql, values, (err, result) => {
-        if(err) {
-            console.error("Error inserting new user: ", err);
-            return res.status(500).json({ error: "Failed to create new user "});
+    const { email, firstName, lastName, phoneNumber, password } = req.body;
+    const checkEmailSql = "SELECT email FROM Users WHERE email = ?";
+    db.query(checkEmailSql, [email], (err, results) => {
+        if (err) {
+            console.error("Error checking email: ", err);
+            return res.status(500).json({ error: "Internal server error" });
         }
-        console.log("New user created successfully");
-        return res.status(201).json({ message: "New user created successfully", userId: result.insertId })
-    })
-})
 
+        if (results.length > 0) {
+            return res.status(409).json({ error: "Email already in use" });
+        } else {
+            bcrypt.hash(password, saltRounds, (err, hash) => {
+                if (err) {
+                    console.error("Error hashing password: ", err);
+                    return res.status(500).json({ error: "Error hashing password" });
+                }
+
+                const sql = "INSERT INTO Users (email, password, first_name, last_name, phone_number, registration_date) VALUES (?, ?, ?, ?, ?, CURDATE())";
+                db.query(sql, [email, hash, firstName, lastName, phoneNumber], (error, result) => {
+                    if (error) {
+                        console.error("Error inserting new user: ", error);
+                        return res.status(500).json({ error: "Failed to create new user: " + error.sqlMessage });
+                    }
+                    res.status(201).json({ message: "New user created successfully", userId: result.insertId });
+                });
+            });
+        }
+    });
+});
+
+
+router.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    const sql = "SELECT * FROM Users WHERE email = ?";
+    db.query(sql, [email], (err, results) => {
+        if (err) {
+            console.error("Error fetching user: ", err);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+        if (results.length > 0) {
+            const user = results[0];
+            bcrypt.compare(password, user.password, (err, isMatch) => {
+                if (err) {
+                    console.error("Error comparing password: ", err);
+                    return res.status(500).json({ error: "Internal server error" });
+                }
+                if (isMatch) {
+                    console.log("Login successful");
+                    res.json({ message: "Login successful!", userId: user.user_id });
+                } else {
+                    console.log("Invalid credentials");
+                    res.status(401).json({ error: "Invalid credentials" });
+                }
+            });
+        } else {
+            console.log("User not found");
+            res.status(404).json({ error: "User not found" });
+        }
+    });
+});
+
+
+router.delete('/:userId', (req, res) => {
+    const userId = req.params.userId;
+    const sql = "DELETE FROM users WHERE user_id = ?";
+    
+    db.query(sql, [userId], (err, result) => {
+        if (err) {
+            console.error("Error deleting user: ", err);
+            return res.status(500).json({ error: "Failed to delete user" });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        console.log("User deleted successfully");
+        return res.json({ message: "User deleted successfully" });
+    });
+});
 module.exports = router;
