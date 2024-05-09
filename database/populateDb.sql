@@ -4,13 +4,20 @@ VALUES
     ('jane@example.com', 'pass456', 'Jane', 'Smith', '987654321', '2023-02-20'),
     ('alice@example.com', 'hello789', 'Alice', 'Johnson', '555555555', '2023-03-10');
 
-INSERT INTO Property (owner_id, title, description, property_type, street, apartment_unit, city, state, zipcode, country, latitude, longitude, price_per_night, amenities, availability_start_date, availability_end_date)
+INSERT INTO Properties (owner_id, title, description, property_type, street, apartment_unit, city, state, zipcode, country, latitude, longitude, price_per_night, amenities, availability_start_date, availability_end_date)
 VALUES
-    (1, 'Cozy Cabin Retreat', 'A beautiful cabin in the woods', 'Cabin', '123 Forest Lane', NULL, 'Anytown', 'State A', '12345', 'USA', 40.7128, -74.0060, 100.00, 'Fireplace, Kitchenette', '2023-04-01', '2023-06-30'),
-    (2, 'Beachfront Villa', 'Luxurious villa by the beach', 'Villa', '456 Seaside Avenue', NULL, 'Beach City', 'State B', '54321', 'USA', 34.0522, -118.2437, 250.00, 'Private pool, Ocean view', '2023-05-15', '2023-08-31'),
-    (3, 'City Apartment', 'Modern apartment in the heart of the city', 'Apartment', '789 Downtown Street', 'Apt 10', 'Metroville', 'State C', '67890', 'USA', 41.8781, -87.6298, 150.00, 'WiFi, Gym access', '2023-04-20', '2023-07-15');
+    (1, 'Cozy Student Studio Near Campus', 'Perfect studio for students near the university', 'Apartment', '123 Student Ave', 'Unit 101', 'San Jose', 'CA', '95112', 'USA', 37.3372, -121.8847, 80.00, 'Furnished, WiFi, Study area', '2024-02-01', '2024-08-31'),
+    (1, 'Shared Apartment with Roommates', 'Shared apartment ideal for student living', 'Apartment', '456 College St', 'Unit 202', 'San Jose', 'CA', '95125', 'USA', 37.3065, -121.8838, 60.00, 'Roommates, Common areas, Laundry facilities', '2024-03-01', '2024-09-30'),
+    (1, 'Student House with Study Rooms', 'Spacious house with dedicated study rooms', 'House', '789 Campus Blvd', '', 'San Jose', 'CA', '95117', 'USA', 37.3124, -121.9845, 120.00, 'Study rooms, Outdoor space, Parking', '2024-02-15', '2024-12-15'),
+    (1, 'Dorm-Style Living Near University', 'Dormitory-style accommodation close to campus', 'Apartment', '555 Student Way', 'Unit 301', 'San Jose', 'CA', '95134', 'USA', 37.4185, -121.9283, 50.00, 'Shared rooms, Communal kitchen, On-site activities', '2024-05-20', '2025-09-15'),
+    (1, 'Cozy Student Apartment Complex', 'Student-friendly apartment complex with amenities', 'Apartment', '777 Learning St', 'Unit 10A', 'San Jose', 'CA', '95126', 'USA', 37.3078, -121.8956, 70.00, 'Fitness center, Study lounges, On-site management', '2024-02-10', '2024-09-10'),
+    (1, 'Affordable Student Housing Option', 'Budget-friendly housing option for students', 'Apartment', '999 Scholar Ave', 'Unit 102', 'San Jose', 'CA', '95129', 'USA', 37.3169, -122.0321, 55.00, 'Affordable rates, Shared spaces, Close to amenities', '2024-04-25', '2024-09-25'),
+    (1, 'Student Townhouse Community', 'Townhouse community designed for student living', 'Townhouse', '123 Study Circle', 'Unit B', 'San Jose', 'CA', '95113', 'USA', 37.3365, -121.8875, 90.00, 'Private rooms, Communal areas, Close to downtown', '2024-06-10', '2025-09-30'),
+    (1, 'Modern Student Condo with Pool', 'Contemporary condo with pool and student-friendly features', 'Condo', '456 Academic Blvd', 'Unit 501', 'San Jose', 'CA', '95138', 'USA', 37.2348, -121.8197, 85.00, 'Swimming pool, Study spaces, Close to transportation', '2024-04-01', '2024-09-15'),
+    (1, 'Student-Focused Housing Complex', 'Specialized housing complex catering to student needs', 'Apartment', '789 Study Lane', 'Unit C3', 'San Jose', 'CA', '95135', 'USA', 37.2335, -121.7572, 75.00, 'Flexible leases, Student events, Pet-friendly', '2024-01-15', '2024-08-31'),
+    (1, 'Co-Living Space for Students', 'Collaborative living space designed for student community', 'Apartment', '555 Campus Drive', 'Unit 204', 'San Jose', 'CA', '95148', 'USA', 37.3381, -121.8167, 65.00, 'Co-living concept, Shared resources, Study pods', '2024-07-05', '2024-09-05');
 
-INSERT INTO PropertyPhotos (property_id, photo_url)
+INSERT INTO PropertiesPhotos (property_id, photo_url)
 VALUES
     (1, 'https://example.com/cabin1.jpg'),
     (1, 'https://example.com/cabin2.jpg'),

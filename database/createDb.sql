@@ -12,7 +12,7 @@ CREATE TABLE Users (
     registration_date DATE NOT NULL
 );
 
-CREATE TABLE Property (
+CREATE TABLE Properties (
     property_id INT PRIMARY KEY AUTO_INCREMENT,
     owner_id INT NOT NULL,
     title VARCHAR(255) NOT NULL,
@@ -34,11 +34,11 @@ CREATE TABLE Property (
 );
 
 
-CREATE TABLE PropertyPhotos (
+CREATE TABLE PropertiesPhotos (
     photo_id INT PRIMARY KEY AUTO_INCREMENT,
     property_id INT NOT NULL,
     photo_url VARCHAR(255) NOT NULL,
-    FOREIGN KEY (property_id) REFERENCES Property(property_id)
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id)
 );
 
 CREATE TABLE Favorites (
@@ -47,7 +47,7 @@ CREATE TABLE Favorites (
     property_id INT NOT NULL,
     date_saved DATE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (property_id) REFERENCES Property(property_id)
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id)
 );
 
 CREATE TABLE Bookings (
@@ -61,7 +61,7 @@ CREATE TABLE Bookings (
     booking_date DATE NOT NULL,
     status VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (property_id) REFERENCES Property(property_id)
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id)
 );
 
 CREATE TABLE Reviews (
@@ -72,7 +72,7 @@ CREATE TABLE Reviews (
     review_text TEXT,
     review_date DATE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (property_id) REFERENCES Property(property_id)
+    FOREIGN KEY (property_id) REFERENCES Properties(property_id)
 );
 
 CREATE TABLE Schools (

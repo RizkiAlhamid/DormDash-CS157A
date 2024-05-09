@@ -1,8 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const usersRoutes = require('./routes/usersRoutes');
-const propertyRoutes = require('./routes/propertyRoutes');
-const propertyPhotosRoutes = require('./routes/propertyPhotosRoutes');
+const propertiesRoutes = require('./routes/propertiesRoutes');
+const propertiesPhotosRoutes = require('./routes/propertiesPhotosRoutes');
 const favoritesRoutes = require('./routes/favoritesRoutes');
 const bookingsRoutes = require('./routes/bookingsRoutes');
 const reviewsRoutes = require('./routes/reviewsRoutes');
@@ -17,8 +17,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/users', usersRoutes);
-app.use('/property', propertyRoutes);
-app.use('/propertyphotos', propertyPhotosRoutes);
+app.use('/properties', propertiesRoutes);
+app.use('/propertiesphotos', propertiesPhotosRoutes);
 app.use('/favorites', favoritesRoutes);
 app.use('/bookings', bookingsRoutes);
 app.use('/reviews', reviewsRoutes);

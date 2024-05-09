@@ -10,15 +10,6 @@ router.get('/', (req, res) => {
     });
 });
 
-router.get('/:userId', (req, res) => {
-    const userId = req.params.userId;
-    const sql = "SELECT * FROM users WHERE user_id = ?";
-    db.query(sql, [userId], (err, data) => {
-        if (err) return res.status(500).json(err);
-        return res.json(data);
-    });
-});
-
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
@@ -84,6 +75,14 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.get('/:userId', (req, res) => {
+    const userId = req.params.userId;
+    const sql = "SELECT * FROM users WHERE user_id = ?";
+    db.query(sql, [userId], (err, data) => {
+        if (err) return res.status(500).json(err);
+        return res.json(data);
+    });
+});
 
 router.delete('/:userId', (req, res) => {
     const userId = req.params.userId;
