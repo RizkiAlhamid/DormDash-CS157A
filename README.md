@@ -14,7 +14,12 @@
 * ### Amer Abu Amrieh
   -
 * ### Muhammad Rizki Miftha Alhamid
-  -
+  - Created Conceptual Diagram
+  - Finalized the Relational Schema
+  - Setup the code base
+  - Created the SQL DDL & DML
+  - Wrote the installation guide & backend api documentation
+  - Worked on the backend endpoints
 * ### Najm Masri
   -
 * ### Sanjana Nagwekar
