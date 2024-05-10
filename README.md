@@ -12,7 +12,15 @@
 
 ## Team Members and Their Roles/Contributions
 * ### Amer Abu Amrieh
-  -
+  - users backend
+  - reviews backend
+  - bookings backend
+  - propertiesphotosroutes backend
+  - favorites backend
+  - schools added database
+  - collaberated with rizki to work on connecting the database with the frontend
+  - worked on the slides for our presentation
+  
 * ### Muhammad Rizki Miftha Alhamid
   -
 * ### Najm Masri
