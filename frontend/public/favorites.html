@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Listings</title>
+    <link rel="stylesheet" href="favorites.css">
+</head>
+<body>
+<nav>
+    <div class="logo">
+        <img src="Images/logo.png" alt="DormDash Logo" />
+    </div>
+    <div class="menu">
+        <a href="search.html">Bookings</a>
+        <a href="favorites.html">Favorites</a>
+        <a href="about.html">About us</a>
+        <a href="#" onclick="logoutUser()">Log Out</a>
+    </div>
+</nav>
+<main>
+    <h1>Favorite Listings</h1>
+    <div id="favoriteListings" class="favorite-listings">
+        <!-- Favorite listings will be displayed here -->
+    </div>
+</main>
+<script>
+    function logoutUser() {
+        localStorage.removeItem('userToken');
+        window.location.href = 'index.html';
+    }
+
+    window.onload = function() {
+        displayFavoriteListings();
+    };
+
+    function displayFavoriteListings() {
+    const favoriteListings = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoriteListingsContainer = document.getElementById('favoriteListings');
+
+    favoriteListingsContainer.innerHTML = '';
+
+    if (favoriteListings.length === 0) {
+        favoriteListingsContainer.innerHTML = '<p>No favorite listings yet!</p>';
+    } else {
+        favoriteListings.forEach(listing => {
+            const listingCard = document.createElement('div');
+            listingCard.classList.add('favorite-listing-card');
+            listingCard.innerHTML = `
+                <div class="listing-image-container">
+                    <img src="${listing.photo_url}" alt="Listing Image" class="listing-image">
+                </div>
+                <div class="listing-details">
+                    <h2>${listing.title}</h2>
+                    <p>${listing.description}</p>
+                    <p class="price">Price per month: $${listing.price_per_month}</p>
+                    <p>Location: ${listing.location}</p>
+                    <p>Availability: ${listing.availability}</p>
+                </div>
+            `;
+            favoriteListingsContainer.appendChild(listingCard);
+        });
+        }
+    }
+
+    function removeFromFavorites(favoriteId) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(fav => fav.id !== favoriteId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    displayFavoriteListings(); // Refresh the listings display
+
+    // Optionally: Make a fetch request to your backend to remove from the database
+    fetch(`/favorites/${favoriteId}`, { method: 'DELETE' })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message); // Log the backend response
+        })
+        .catch(error => console.error('Error removing favorite:', error));
+}
+
+window.onload = function() {
+    displayFavoriteListings();
+};
+
+function displayFavoriteListings() {
+    const favoriteListings = JSON.parse(localStorage.getItem('favorites')) || [];
+    const favoriteListingsContainer = document.getElementById('favoriteListings');
+    favoriteListingsContainer.innerHTML = '';
+
+    if (favoriteListings.length === 0) {
+        favoriteListingsContainer.innerHTML = '<p>No favorite listings yet!</p>';
+    } else {
+        favoriteListings.forEach(listing => {
+            const listingCard = document.createElement('div');
+            listingCard.classList.add('favorite-listing-card');
+            listingCard.innerHTML = `
+                <div class="listing-image-container">
+                    <img src="${listing.photo_url}" alt="Listing Image" class="listing-image">
+                </div>
+                <div class="listing-details">
+                    <h2>${listing.title}</h2>
+                    <p>${listing.description}</p>
+                    <p class="price">Price per month: $${listing.price_per_month}</p>
+                    <p>Location: ${listing.location}</p>
+                    <p>Availability: ${listing.availability}</p>
+                    <button onclick="removeFromFavorites(${listing.id})">Remove from Favorites</button>
+                </div>
+            `;
+            favoriteListingsContainer.appendChild(listingCard);
+        });
+    }
+}
+
+</script>
+</body>
+</html>
