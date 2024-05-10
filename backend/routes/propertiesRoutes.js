@@ -55,14 +55,19 @@ router.get('/search', (req, res) => {
         });
     });
 });
-
 router.get('/:propertyId', (req, res) => {
     const propertyId = req.params.propertyId;
     const sql = "SELECT * FROM properties WHERE property_id = ?";
-    db.query(sql, [propertyId], (err, data) => {
-        if (err) return res.status(500).json(err);
-        return res.json(data);
+    db.query(sql, [propertyId], (err, results) => {
+        if (err) {
+            console.error("Error fetching property details:", err);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+        if (results.length === 0) {
+            return res.status(404).json({ message: "Property not found" });
+        }
+        // Send the first result assuming the query should only match one property with a unique ID
+        return res.json(results[0]);
     });
 });
-
 module.exports = router;

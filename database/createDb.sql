@@ -88,5 +88,8 @@ CREATE TABLE Schools (
     longitude DECIMAL(10, 6)
 );
 
-
+CREATE TABLE PropertyType (
+    type_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL
+);
 

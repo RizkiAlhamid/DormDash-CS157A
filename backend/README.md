@@ -1,9 +1,9 @@
 # DormDash's Backend Setup Guide
 
 1. Make sure you finished seting up the database, [HERE](../database/README.md)
-2. Run ```npm install```
-3. Start your mySQL server
-4. In this directory ```/backend```, add an ```.env``` file
+2. Run ```npm install``` to install missing dependencies
+3. Make sure your SQL server is still running
+4. In this directory ```/backend```, create an ```.env``` file
 5. Add this data inside the ```.env``` file: 
 ```bash
 DB_HOST=localhost

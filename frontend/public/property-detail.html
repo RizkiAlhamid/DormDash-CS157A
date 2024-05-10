@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Property Details</title>
+    <link rel="stylesheet" href="details.css">
+</head>
+<body>
+<nav>
+    <div class="logo">
+        <img src="Images/logo.png" alt="DormDash Logo" />
+    </div>
+    <div class="menu">
+        <a href="search.html">Bookings</a>
+        <a href="search.html">Favorites</a>
+        <a href="about.html">About us</a>
+        <a href="#" onclick="logoutUser()">Log Out</a>
+    </div>
+</nav>
+<button onclick="goBack()">Back to Search Results</button> <!-- Back button -->
+<div id="propertyDetails" class="property-details-container"></div>
+<script>
+    function goBack() {
+        window.history.back();  // This assumes that the user came from the search page
+    }
+    const placeholderImages = [
+        'https://www.shutterstock.com/image-photo/interior-small-apartment-living-room-600nw-2154108011.jpg',
+        'https://www.hellostudent.co.uk/propeller/uploads/2017/08/Claire-Williams-Photography-1-of-53-1020x740.jpg',
+        'https://www.go.study/assets/usa/student-accommodation-in-usa.jpg',
+        'https://live.staticflickr.com/65535/52676260196_bbbc13012f_c.jpg',
+        'https://cdn.trendir.com/wp-content/uploads/2016/09/Small-studio-wiht-minimal-furnishings.jpg',
+        'https://eagle.northwestu.edu/departments/housing/files/2022/05/220405_ResLifeLivingAreas-7807-1.jpg',
+        'https://www.pdx.edu/housing/sites/housing.web.wdt.pdx.edu/files/styles/feature_image_carousel/public/2020-02/Broadway-061.jpg?h=4fb0c68e&itok=hFw2Fm9p',
+        'https://cdn.homedit.com/wp-content/uploads/2011/12/perfect-student-flat5.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAgvZlNqz96qsjn6P-hshkgumIa1onMIlr-fYFiM90_Su67CJmPd1ulGTO9HI7DwoUH_4&usqp=CAU'
+    ];
+
+    function getRandomImage() {
+        return placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageUrl = getRandomImage();
+        const urlParams = new URLSearchParams(window.location.search);
+        const propertyId = urlParams.get('propertyId');
+        if (!propertyId) {
+            console.error('No property ID provided in URL.');
+            return;
+        }
+
+        fetch(`http://localhost:8081/properties/${propertyId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch property details');
+                }
+                return response.json();
+            })
+            .then(property => {
+                const detailsContainer = document.getElementById('propertyDetails');
+                detailsContainer.innerHTML = `
+                <h1>${property.title || 'Title Not Available'}</h1>
+                <img src="${imageUrl}" alt="Main Image" style="width:100%; height:auto;"/>
+                <p><strong>Description:</strong> ${property.description || 'No description provided.'}</p>
+                <p><strong>Type:</strong> ${property.property_type || 'Type not specified.'}</p>
+                <p><strong>Price per night:</strong> $${property.price_per_night || 'Price not available'}</p>
+                <p><strong>Location:</strong> ${property.street || 'No street'}, ${property.apartment_unit ? property.apartment_unit + ', ' : ''}${property.city || 'No city'}, ${property.state || 'No state'}, ${property.zipcode || 'No zipcode'}, ${property.country || 'No country'}</p>
+                <p><strong>Amenities:</strong> ${property.amenities || 'No amenities listed.'}</p>
+                <p><strong>Available:</strong> ${property.availability_start_date || 'start date not available'} to ${property.availability_end_date || 'end date not available'}</p>
+                <button onclick="bookProperty(${property.property_id})">Book Now</button>
+                <button onclick="saveToFavorites(${property.property_id})">Save to Favorites</button>
+            `;
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                detailsContainer.innerHTML = '<p>Failed to load property details. Please try again later.</p>';
+            });
+    });
+
+    function bookProperty(propertyId) {
+        console.log('Booking property:', propertyId);
+        // Implement the booking functionality here
+    }
+
+    function saveToFavorites(propertyId) {
+        console.log('Saving property to favorites:', propertyId);
+        // Implement the save to favorites functionality here
+    }
+</script>
+</body>
+</html>

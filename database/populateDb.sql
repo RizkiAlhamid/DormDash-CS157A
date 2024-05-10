@@ -86,5 +86,10 @@ VALUES
     (14, 'Menlo College', '1000 El Camino Real', NULL, 'Atherton', 'CA', '94027', 'USA', 37.4536, -122.1817),
     (15, 'Pacific Union College', '1 Angwin Ave', NULL, 'Angwin', 'CA', '94508', 'USA', 38.5773, -122.4499);
 
-
+INSERT INTO PropertyType (name)
+VALUES 
+	('House'),
+	('Townhouse'),
+    ('Apartment'),
+    ('Condo');
 
