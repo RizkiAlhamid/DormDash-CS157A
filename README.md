@@ -16,6 +16,8 @@
 * ### Muhammad Rizki Miftha Alhamid
   -
 * ### Najm Masri
-  -
+  -Worked on about us page
+  -worked on favorites page and functionalities for it on the seach page and property listing page
+  
 * ### Sanjana Nagwekar
   -
