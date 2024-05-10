@@ -31,6 +31,9 @@
 * ### Najm Masri
   - Worked on about us page 
   - worked on favorites page and functionalities for it on the seach page including the frontend + backend for it and property listing page
+  - made changes to users and favorites backend
+  - helped with the functionailty for property details
+  - styled the front end pages 
   
 * ### Sanjana Nagwekar
   - Designed Figma Prototype
