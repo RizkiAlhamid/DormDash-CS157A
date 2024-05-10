@@ -20,4 +20,8 @@
   -worked on favorites page and functionalities for it on the seach page and property listing page
   
 * ### Sanjana Nagwekar
-  -
+  - Designed Figma Prototype
+  - Created and styled landing page on the frontend
+  - Styled and developed Search and Search results on the frontend
+  - Implemented Login & Signup functionality on frontend and backend
+  - Developed functionality for Property Details and Bookings (frontend+backend)
