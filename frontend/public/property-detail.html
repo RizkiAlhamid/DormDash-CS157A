@@ -12,8 +12,8 @@
         <img src="Images/logo.png" alt="DormDash Logo" />
     </div>
     <div class="menu">
-        <a href="search.html">Bookings</a>
-        <a href="search.html">Favorites</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="favorites.html">Favorites</a>
         <a href="about.html">About us</a>
         <a href="#" onclick="logoutUser()">Log Out</a>
     </div>
@@ -21,6 +21,10 @@
 <button onclick="goBack()">Back to Search Results</button> <!-- Back button -->
 <div id="propertyDetails" class="property-details-container"></div>
 <script>
+    function logoutUser() {
+        localStorage.removeItem('userToken');
+        window.location.href = 'index.html';
+    }
     function goBack() {
         window.history.back();  // This assumes that the user came from the search page
     }
@@ -41,14 +45,22 @@
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        const imageUrl = getRandomImage();
         const urlParams = new URLSearchParams(window.location.search);
         const propertyId = urlParams.get('propertyId');
+        const startDate = urlParams.get('start_date');
+        const endDate = urlParams.get('end_date');
+
+        console.log('Property ID:', propertyId);
+        console.log('Start Date:', startDate);
+        console.log('End Date:', endDate);
+
         if (!propertyId) {
             console.error('No property ID provided in URL.');
+            document.getElementById('propertyDetails').innerHTML = '<p>Error: No property ID provided.</p>';
             return;
         }
 
+        const imageUrl = getRandomImage();
         fetch(`http://localhost:8081/properties/${propertyId}`)
             .then(response => {
                 if (!response.ok) {
@@ -58,33 +70,97 @@
             })
             .then(property => {
                 const detailsContainer = document.getElementById('propertyDetails');
+                if (!property || property.length === 0) {
+                    detailsContainer.innerHTML = '<p>No property details found.</p>';
+                    return;
+                }
+                let bookingButtonHTML = property.isBooked ?
+                    '<button disabled>Booked Out</button>' :
+                    `<button onclick="bookProperty(${property.property_id}, '${startDate}', '${endDate}')">Book Now</button>`;
+
                 detailsContainer.innerHTML = `
                 <h1>${property.title || 'Title Not Available'}</h1>
                 <img src="${imageUrl}" alt="Main Image" style="width:100%; height:auto;"/>
                 <p><strong>Description:</strong> ${property.description || 'No description provided.'}</p>
                 <p><strong>Type:</strong> ${property.property_type || 'Type not specified.'}</p>
                 <p><strong>Price per night:</strong> $${property.price_per_night || 'Price not available'}</p>
-                <p><strong>Location:</strong> ${property.street || 'No street'}, ${property.apartment_unit ? property.apartment_unit + ', ' : ''}${property.city || 'No city'}, ${property.state || 'No state'}, ${property.zipcode || 'No zipcode'}, ${property.country || 'No country'}</p>
+                <p><strong>Location:</strong> ${property.street || 'No street'}, ${property.city || 'No city'}, ${property.state || 'No state'}, ${property.zipcode || 'No zipcode'}, ${property.country || 'No country'}</p>
                 <p><strong>Amenities:</strong> ${property.amenities || 'No amenities listed.'}</p>
                 <p><strong>Available:</strong> ${property.availability_start_date || 'start date not available'} to ${property.availability_end_date || 'end date not available'}</p>
-                <button onclick="bookProperty(${property.property_id})">Book Now</button>
+                <button onclick="bookProperty(${property.property_id}, '${startDate}', '${endDate}')">Book Now</button>
                 <button onclick="saveToFavorites(${property.property_id})">Save to Favorites</button>
             `;
             })
             .catch(err => {
                 console.error('Error:', err);
-                detailsContainer.innerHTML = '<p>Failed to load property details. Please try again later.</p>';
+                document.getElementById('propertyDetails').innerHTML = '<p>Failed to load property details. Please try again later.</p>';
             });
     });
 
-    function bookProperty(propertyId) {
-        console.log('Booking property:', propertyId);
-        // Implement the booking functionality here
+    function bookProperty(propertyId, startDate, endDate) {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            alert('Please log in to book properties.');
+            window.location.href = 'login.html';
+            return;
+        }
+
+        console.log(`Attempting to book property with ID: ${propertyId} for user ID: ${userId}`);
+        const bookingData = {
+            user_id: userId,
+            property_id: propertyId,
+            start_date: startDate,
+            end_date: endDate,
+            num_guests: 1,
+            total_price: 240,
+            booking_date: new Date().toISOString().split('T')[0],
+            status: 'Booked'
+        };
+
+        fetch('http://localhost:8081/bookings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to create booking');
+                }
+                return response.json();
+            })
+            .then(result => {
+                alert('Booking successful! Booking ID: ' + result.booking_id);
+                window.location.reload(); // Optionally refresh the page or redirect
+            })
+            .catch(err => {
+                console.error('Error booking property:', err);
+                alert('Failed to book property. Please try again.');
+            });
     }
 
     function saveToFavorites(propertyId) {
         console.log('Saving property to favorites:', propertyId);
-        // Implement the save to favorites functionality here
+        fetch(`http://localhost:8081/properties/${propertyId}`)
+    .then(response => response.json())
+            .then(property => {
+                // Check if the 'favorites' item exists, if not, initialize an empty array
+                let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+                // Check if the property already exists in favorites to avoid duplicates
+                if (!favorites.some(fav => fav.id === propertyId)) {
+                    favorites.push(property);
+                    localStorage.setItem('favorites', JSON.stringify(favorites));
+                    alert('Added to favorites!');
+                } else {
+                    alert('This property is already in your favorites.');
+                }
+            })
+            .catch(error => {
+                console.error('Failed to save to favorites:', error);
+                alert('Failed to save to favorites. Please try again later.');
+            });
     }
 </script>
 </body>

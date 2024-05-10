@@ -12,7 +12,7 @@
         <img src="Images/logo.png" alt="DormDash Logo" />
     </div>
     <div class="menu">
-        <a href="search.html">Bookings</a>
+        <a href="bookings.html">Bookings</a>
         <a href="favorites.html">Favorites</a>
         <a href="about.html">About us</a>
         <a href="#" onclick="logoutUser()">Log Out</a>
@@ -22,9 +22,9 @@
     <h1>Begin your search</h1>
     <p>Type in your desired school or city to find the ideal accommodations for your academic journey.</p>
     <form id="searchForm">
-        <input type="text" placeholder="Enter School Name" name="school">
-        <input type="date" name="start_date">
-        <input type="date" name="end_date">
+        <input type="text" placeholder="Enter School Name" name="school" required>
+        <input type="date" name="start_date" required>
+        <input type="date" name="end_date" required>
         <button type="submit">Search</button>
     </form>
     <div id="propertyResults" class="property-results">
@@ -56,82 +56,37 @@
     document.getElementById('searchForm').addEventListener('submit', async function(event) {
         event.preventDefault();
         const formData = new FormData(this);
-        const searchParams = new URLSearchParams(formData).toString();
+        const school = formData.get('school');
+        const start_date = formData.get('start_date');
+        const end_date = formData.get('end_date');
+
+        const searchURL = `http://localhost:8081/properties/search?school=${encodeURIComponent(school)}&start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`;
 
         try {
-            const response = await fetch(`http://localhost:8081/properties/search?${searchParams}`);
+            const response = await fetch(searchURL);
             const data = await response.json();
 
             if (!response.ok) {
                 throw new Error(data.message || 'Failed to fetch properties');
             }
 
-<<<<<<< HEAD
-        data.forEach(property => {
-            const imageUrl = property.photo_url || getRandomImage();
-            const propertyObjectString = JSON.stringify({
-                id: property.id,
-                title: property.title,
-                description: property.description,
-                photo_url: imageUrl,
-                price_per_month: (property.price_per_night * 30),
-                location: `${property.street}, ${property.city}, ${property.state}, ${property.zipcode}`,
-                availability: `${property.availability_start_date} to ${property.availability_end_date}`
-            });
-
-            const propertyCard = document.createElement('div');
-            propertyCard.classList.add('property-card');
-            propertyCard.innerHTML = `
-                <div class="property-image-container">
-                    <img src="${imageUrl}" alt="Property Image" class="property-image">
-                    <button class="favorite-button" onclick='addToFavorites(\`${propertyObjectString}\`)'>♥</button>
-                </div>
-                <h2>${property.title}</h2>
-                <p>${property.description}</p>
-                <p class="price">Price per month: $${(property.price_per_night)*30}</p>
-                <p>Location: ${property.street}, ${property.city}, ${property.state}, ${property.zipcode}</p>
-                <p>Availability: ${property.availability_start_date} to ${property.availability_end_date}</p>
-            `;
-
-            propertyResults.appendChild(propertyCard);
-        });
-    } catch (error) {
-        console.error('Error fetching properties:', error);
-        alert('Failed to fetch properties. Please try again.');
-    }
-});
-
-function addToFavorites(propertyString) {
-    let property = JSON.parse(propertyString);
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    if (!favorites.some(fav => fav.id === property.id)) {
-        favorites.push(property);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        console.log('Added to favorites:', property);
-        alert('Added to favorites!');
-    } else {
-        console.log('Attempt to add duplicate:', property);
-        alert('Already in favorites!');
-    }
-=======
             const propertyResults = document.getElementById('propertyResults');
             propertyResults.innerHTML = '';
 
             data.forEach(property => {
-                const imageUrl = getRandomImage(); // Get a random image for each property
+                const imageUrl = getRandomImage();
                 const propertyCard = document.createElement('div');
                 propertyCard.classList.add('property-card');
-
                 propertyCard.innerHTML = `
-                    <a href="property-detail.html?propertyId=${property.property_id}" class="property-link">
-                        <div class="property-image-container">
+                    <a href="property-detail.html?propertyId=${property.property_id}&start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}" class="property-link">
+                    <div class="property-image-container">
                         <img src="${imageUrl}" alt="Property Image" class="property-image">
                         <button class="favorite-button" onclick="addToFavorites('${property.id}')">&#x2665;</button>
-                        </div>
+                    </div>
                         <div class="property-info">
                             <h2>${property.title}</h2>
                             <p>${property.description}</p>
-                            <p class="price">Price per month: $${(property.price_per_night)*30}</p>
+                            <p class="price">Price per month: $${Math.round(property.price_per_night * 30)}</p>
                             <p>Location: ${property.street}, ${property.city}, ${property.state}, ${property.zipcode}</p>
                             <p>Availability: ${property.availability_start_date} to ${property.availability_end_date}</p>
                         </div>
@@ -145,11 +100,25 @@ function addToFavorites(propertyString) {
         }
     });
 
-    function addToFavorites(propertyId) {
-    console.log("Adding to favorites:", propertyId);
-    // Here you can add code to update the server or local storage
->>>>>>> f9a810095dacfd3459802f5242dd81bb747f6a38
-}
+    function addToFavorites(propertyId, title, description, pricePerMonth, location, availability, photoUrl) {
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        if (!favorites.some(fav => fav.id === propertyId)) {
+            favorites.push({
+                id: propertyId,
+                title: title,
+                description: description,
+                price_per_month: pricePerMonth,
+                location: location,
+                availability: availability,
+                photo_url: photoUrl
+            });
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            alert('Added to favorites!');
+        } else {
+            alert('Already in favorites!');
+        }
+    }
+
 </script>
 </body>
 </html>

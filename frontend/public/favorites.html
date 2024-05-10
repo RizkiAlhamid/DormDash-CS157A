@@ -12,8 +12,8 @@
         <img src="Images/logo.png" alt="DormDash Logo" />
     </div>
     <div class="menu">
-        <a href="search.html">Bookings</a>
-        <a href="favorites.html">Favorites</a>
+        <a href="search.html">Search</a>
+        <a href="bookings.html">Bookings</a>
         <a href="about.html">About us</a>
         <a href="#" onclick="logoutUser()">Log Out</a>
     </div>
@@ -25,6 +25,7 @@
     </div>
 </main>
 <script>
+
     function logoutUser() {
         localStorage.removeItem('userToken');
         window.location.href = 'index.html';
@@ -34,82 +35,74 @@
         displayFavoriteListings();
     };
 
-    function displayFavoriteListings() {
-    const favoriteListings = JSON.parse(localStorage.getItem('favorites')) || [];
-    const favoriteListingsContainer = document.getElementById('favoriteListings');
+    const placeholderImages = [
+        'https://www.shutterstock.com/image-photo/interior-small-apartment-living-room-600nw-2154108011.jpg',
+        'https://www.hellostudent.co.uk/propeller/uploads/2017/08/Claire-Williams-Photography-1-of-53-1020x740.jpg',
+        'https://www.go.study/assets/usa/student-accommodation-in-usa.jpg',
+        'https://live.staticflickr.com/65535/52676260196_bbbc13012f_c.jpg',
+        'https://cdn.trendir.com/wp-content/uploads/2016/09/Small-studio-wiht-minimal-furnishings.jpg',
+        'https://eagle.northwestu.edu/departments/housing/files/2022/05/220405_ResLifeLivingAreas-7807-1.jpg',
+        'https://www.pdx.edu/housing/sites/housing.web.wdt.pdx.edu/files/styles/feature_image_carousel/public/2020-02/Broadway-061.jpg?h=4fb0c68e&itok=hFw2Fm9p',
+        'https://cdn.homedit.com/wp-content/uploads/2011/12/perfect-student-flat5.jpg',
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAgvZlNqz96qsjn6P-hshkgumIa1onMIlr-fYFiM90_Su67CJmPd1ulGTO9HI7DwoUH_4&usqp=CAU'
+    ];
 
-    favoriteListingsContainer.innerHTML = '';
-
-    if (favoriteListings.length === 0) {
-        favoriteListingsContainer.innerHTML = '<p>No favorite listings yet!</p>';
-    } else {
-        favoriteListings.forEach(listing => {
-            const listingCard = document.createElement('div');
-            listingCard.classList.add('favorite-listing-card');
-            listingCard.innerHTML = `
-                <div class="listing-image-container">
-                    <img src="${listing.photo_url}" alt="Listing Image" class="listing-image">
-                </div>
-                <div class="listing-details">
-                    <h2>${listing.title}</h2>
-                    <p>${listing.description}</p>
-                    <p class="price">Price per month: $${listing.price_per_month}</p>
-                    <p>Location: ${listing.location}</p>
-                    <p>Availability: ${listing.availability}</p>
-                </div>
-            `;
-            favoriteListingsContainer.appendChild(listingCard);
-        });
-        }
+    function getRandomImage() {
+        return placeholderImages[Math.floor(Math.random() * placeholderImages.length)];
     }
 
     function removeFromFavorites(favoriteId) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    favorites = favorites.filter(fav => fav.id !== favoriteId);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-    displayFavoriteListings(); // Refresh the listings display
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        favorites = favorites.filter(fav => fav.id !== favoriteId);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        displayFavoriteListings(); // Refresh the listings display
 
-    // Optionally: Make a fetch request to your backend to remove from the database
-    fetch(`/favorites/${favoriteId}`, { method: 'DELETE' })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message); // Log the backend response
-        })
-        .catch(error => console.error('Error removing favorite:', error));
-}
-
-window.onload = function() {
-    displayFavoriteListings();
-};
-
-function displayFavoriteListings() {
-    const favoriteListings = JSON.parse(localStorage.getItem('favorites')) || [];
-    const favoriteListingsContainer = document.getElementById('favoriteListings');
-    favoriteListingsContainer.innerHTML = '';
-
-    if (favoriteListings.length === 0) {
-        favoriteListingsContainer.innerHTML = '<p>No favorite listings yet!</p>';
-    } else {
-        favoriteListings.forEach(listing => {
-            const listingCard = document.createElement('div');
-            listingCard.classList.add('favorite-listing-card');
-            listingCard.innerHTML = `
-                <div class="listing-image-container">
-                    <img src="${listing.photo_url}" alt="Listing Image" class="listing-image">
-                </div>
-                <div class="listing-details">
-                    <h2>${listing.title}</h2>
-                    <p>${listing.description}</p>
-                    <p class="price">Price per month: $${listing.price_per_month}</p>
-                    <p>Location: ${listing.location}</p>
-                    <p>Availability: ${listing.availability}</p>
-                    <button onclick="removeFromFavorites(${listing.id})">Remove from Favorites</button>
-                </div>
-            `;
-            favoriteListingsContainer.appendChild(listingCard);
-        });
+        // Optionally: Make a fetch request to your backend to remove from the database
+        fetch(`/favorites/${favoriteId}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message); // Log the backend response
+            })
+            .catch(error => console.error('Error removing favorite:', error));
     }
-}
+
+    window.onload = function() {
+        displayFavoriteListings();
+    };
+
+    function displayFavoriteListings() {
+        const favoriteListings = JSON.parse(localStorage.getItem('favorites')) || [];
+        const favoriteListingsContainer = document.getElementById('favoriteListings');
+        favoriteListingsContainer.innerHTML = '';
+        const imageUrl = getRandomImage();
+
+
+        if (favoriteListings.length === 0) {
+            favoriteListingsContainer.innerHTML = '<p>No favorite listings yet!</p>';
+        } else {
+            favoriteListings.forEach(listing => {
+                const listingCard = document.createElement('div');
+                listingCard.classList.add('favorite-listing-card');
+                listingCard.innerHTML = `
+                <a href="property-detail.html?propertyId=${listing.id}">
+                    <div class="listing-image-container">
+                    <img src="${imageUrl}" alt="Main Image" style="width:100%; height:auto;"/>
+                    </div>
+                    <div class="listing-details">
+                        <h2>${listing.title}</h2>
+                        <p>${listing.description}</p>
+                        <p class="price">Price per month: $${listing.price_per_month}</p>
+                        <p>Location: ${listing.location}</p>
+                        <p>Availability: ${listing.availability}</p>
+                    </div>
+                </a>
+                <button onclick="removeFromFavorites(${listing.id})">Remove from Favorites</button>
+            `;
+                favoriteListingsContainer.appendChild(listingCard);
+            });
+        }
+    }
+
 
 </script>
 </body>

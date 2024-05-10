@@ -39,15 +39,24 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Login failed');
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.userId) {
+                    localStorage.setItem('userId', data.userId); // Store user ID locally
                     window.location.href = '/search.html'; // Redirect on success
                 } else {
                     alert('Login failed: ' + data.error);
                 }
             })
-            .catch(error => console.error('Error logging in:', error));
+            .catch(error => {
+                console.error('Error logging in:', error);
+                alert('Login failed. Please try again.');
+            });
     });
 </script>
 </body>

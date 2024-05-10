@@ -1,0 +1,92 @@
+/* General Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5dc; /* Light grey background for better readability */
+}
+
+nav {
+    background-color: #fff; /* White background */
+    padding: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+
+nav .logo img {
+    width: 120px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    padding: 10px 15px;
+    background-color: #a52a2a;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+/* Main Content Styling */
+main {
+    padding: 20px;
+    max-width: 1200px; /* Max width for the content */
+    margin: 20px auto;
+}
+
+h1 {
+    color: #333;
+}
+
+/* Booking Cards Styling */
+.bookings-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.booking {
+    background: white;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.booking h3 {
+    margin-top: 0;
+}
+
+/* Styles for paragraph elements in booking cards */
+.booking p {
+    line-height: 1.5;
+    color: #666;
+}
+
+/* Button Styling */
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    nav .menu a {
+        margin-left: 10px;
+        padding: 5px;
+    }
+
+    .booking {
+        padding: 10px;
+    }
+}

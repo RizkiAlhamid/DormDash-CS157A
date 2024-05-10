@@ -9,6 +9,26 @@ router.get('/', (req, res) => {
         return res.json(data);
     });
 });
+router.get('/user/:userId', (req, res) => {
+    const userId = req.params.userId;
+    console.log(`Fetching bookings for user: ${userId}`);  // Log the user ID received
+
+    const sql = `
+        SELECT b.*, p.title AS property_title
+        FROM bookings b
+        JOIN properties p ON b.property_id = p.property_id
+        WHERE b.user_id = ?
+    `;
+    db.query(sql, [userId], (err, data) => {
+        if (err) {
+            console.error('Failed to fetch bookings for user:', err);
+            return res.status(500).json(err);
+        }
+        console.log(`Bookings fetched: ${data.length}`);  // Log how many bookings were fetched
+        return res.json(data);
+    });
+});
+
 
 router.get('/:bookingId', (req, res) => {
     const bookingId = req.params.bookingId;
@@ -24,10 +44,11 @@ router.post('/', (req, res) => {
         INSERT INTO Bookings (user_id, property_id, start_date, end_date, num_guests, total_price, booking_date, status)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
-    const values = [user_id, property_id, start_date, end_date, num_guests, total_price, booking_date, status];
-    
-    db.query(sql, values, (err, result) => {
-        if (err) return res.status(500).json({ error: err.message });
+    db.query(sql, [user_id, property_id, start_date, end_date, num_guests, total_price, booking_date, status], (err, result) => {
+        if (err) {
+            console.error('Error executing booking:', err);
+            return res.status(500).json({ error: err.message });
+        }
         return res.status(201).json({ booking_id: result.insertId, message: 'Booking created successfully!' });
     });
 });
@@ -36,7 +57,7 @@ router.post('/', (req, res) => {
 router.delete('/:bookingId', (req, res) => {
     const bookingId = req.params.bookingId;
     const sql = "DELETE FROM Bookings WHERE booking_id = ?";
-    
+
     db.query(sql, [bookingId], (err, result) => {
         if (err) return res.status(500).json({ error: err.message });
         if (result.affectedRows === 0) return res.status(404).json({ message: 'Booking not found!' });

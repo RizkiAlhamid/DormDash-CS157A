@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings</title>
+    <link rel="stylesheet" href="booking.css">
+</head>
+<body>
+<nav>
+    <div class="logo">
+        <img src="Images/logo.png" alt="DormDash Logo" />
+    </div>
+    <div class="menu">
+        <a href="search.html">Search</a>
+        <a href="favorites.html">Favorites</a>
+        <a href="about.html">About Us</a>
+        <a href="#" onclick="logoutUser()">Log Out</a>
+    </div>
+</nav>
+<main>
+    <h1>Your Bookings</h1>
+    <div id="bookingsList" class="bookings-list">
+    </div>
+</main>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const userId = localStorage.getItem('userId');
+        if (!userId) {
+            window.location.href = 'login.html'; // Redirect to login if no user ID found
+            return;
+        }
+
+        fetch(`http://localhost:8081/bookings/user/${userId}`) // Corrected API endpoint
+            .then(response => {
+                if (!response.ok) throw new Error('Failed to fetch bookings');
+                return response.json();
+            })
+            .then(bookings => {
+                const bookingsList = document.getElementById('bookingsList');
+                if (bookings.length === 0) {
+                    bookingsList.innerHTML = '<p>No bookings found.</p>';
+                    return;
+                }
+                bookings.forEach(booking => {
+                    const bookingElement = document.createElement('div');
+                    bookingElement.className = 'booking';
+                    bookingElement.innerHTML = `
+                    <h3>${booking.property_title || 'Title not available'}</h3>
+                    <p><strong>Booking ID:</strong> ${booking.booking_id}</p>
+                    <p><strong>Start Date:</strong> ${booking.start_date}</p>
+                    <p><strong>End Date:</strong> ${booking.end_date}</p>
+                    <p><strong>Number of Guests:</strong> ${booking.num_guests}</p>
+                    <p><strong>Total Price:</strong> $${booking.total_price}</p>
+                    <p><strong>Status:</strong> ${booking.status}</p>
+                `;
+                    bookingsList.appendChild(bookingElement);
+                });
+            })
+            .catch(err => {
+                console.error('Error:', err);
+                bookingsList.innerHTML = '<p>Failed to load bookings. Please try again later.</p>';
+            });
+    });
+
+    function logoutUser() {
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userId');
+        window.location.href = 'index.html';
+    }
+</script>
+
+</body>
+</html>
